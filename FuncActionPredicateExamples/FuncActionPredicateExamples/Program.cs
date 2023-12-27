@@ -4,11 +4,14 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static FuncActionPredicateExamples.Program;
 
 namespace FuncActionPredicateExamples
 {
+
     internal class Program
     {
+       
         delegate TResult Func2<out TResult>();
         delegate TResult Func2<in T1, out TResult>(T1 arg);
         delegate TResult Func2<in T1, in T2, out TResult>(T1 arg1, T2 arg2);
@@ -31,7 +34,9 @@ namespace FuncActionPredicateExamples
             employees.Add(new Employee { Id = 3, FirstName = "John", LastName = "Henderson", AnuualSalary = 58000, Gender = 'm', IsManager = true });
             employees.Add(new Employee { Id = 4, FirstName = "Jane", LastName = "May", AnuualSalary = 30000, Gender = 'f', IsManager = false });
 
-            List<Employee> employeesFiletered = FilterEmployees(employees, e => e.IsManager);
+            //List<Employee> employeesFiletered = FilterEmployees(employees, e => e.IsManager);
+            //only need to pass lambda pression for the method of the list object
+            List<Employee> employeesFiletered = employees.FilterEmployees(e => !e.IsManager);
             foreach (Employee employee in employeesFiletered) 
             {
                 displayEmployeeRecords(employee.Id, employee.FirstName, employee.LastName, employee.AnuualSalary, employee.Gender, employee.IsManager);
@@ -67,20 +72,7 @@ namespace FuncActionPredicateExamples
             //displayEmployeeRecords(1, "Sarah", "Jones", 60000, 'f', true);
         }
 
-        public class Employee 
-        { 
-            public int Id { get; set; }
-
-            public string FirstName { get; set; }
-
-            public string LastName { get; set; }
-        
-            public decimal AnuualSalary { get; set; }
-            
-            public char Gender { get; set; }
-
-            public bool IsManager { get; set; }
-        }
+      
 
         private static void FuncPractice() 
         {
@@ -125,14 +117,49 @@ namespace FuncActionPredicateExamples
             */
         }
 
-        public static class Extensions
+        
+    }
 
-        public class MathClass 
+    //by using extension, we can then say directly use the method from the list object
+    public static class Extensions
+    {
+        public static List<Employee> FilterEmployees(this List<Employee> employees, Predicate<Employee> predicate)
         {
-            public int Sum(int a, int b) 
+            //predicate method encapsuluates a method that contains one parameter(intput) and returns bool,
+            //normally used to check whether the input meets the criteria 
+            List<Employee> employeesFiltered = new List<Employee>();
+
+            foreach (Employee employee in employees)
             {
-                return a + b;
+                if (predicate(employee))
+                {
+                    employeesFiltered.Add(employee);
+                }
             }
+            return employeesFiltered;
         }
     }
+
+    public class Employee
+    {
+        public int Id { get; set; }
+
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
+
+        public decimal AnuualSalary { get; set; }
+
+        public char Gender { get; set; }
+
+        public bool IsManager { get; set; }
+    }
+    public class MathClass
+    {
+        public int Sum(int a, int b)
+        {
+            return a + b;
+        }
+    }
+
 }
