@@ -36,7 +36,9 @@ namespace FuncActionPredicateExamples
 
             //List<Employee> employeesFiletered = FilterEmployees(employees, e => e.IsManager);
             //only need to pass lambda pression for the method of the list object
-            List<Employee> employeesFiletered = employees.FilterEmployees(e => !e.IsManager);
+            //List<Employee> employeesFiletered = employees.FilterEmployees(e => !e.IsManager);
+            //use linq
+            List<Employee> employeesFiletered = employees.Where(e => !e.IsManager).ToList();
             foreach (Employee employee in employeesFiletered) 
             {
                 displayEmployeeRecords(employee.Id, employee.FirstName, employee.LastName, employee.AnuualSalary, employee.Gender, employee.IsManager);
