@@ -26,13 +26,14 @@ namespace FuncActionPredicateExamples
 
         private static void PredicatePractice()
         {
+            Func<decimal, decimal, decimal> calculateTotalAnnualSalary = (annualSalary, bonusPercentage) => annualSalary + (annualSalary * (bonusPercentage / 100));
             List<Employee> employees = new List<Employee>();
             Action<int, string, string, decimal, char, bool> displayEmployeeRecords = (arg1, arg2, arg3, arg4, arg5, arg6) => Console.WriteLine($"Id: {arg1}{Environment.NewLine}First Name: {arg2}{Environment.NewLine}Last Name: {arg3}{Environment.NewLine}Annual salary: {arg4}{Environment.NewLine}Gender: {arg5}{Environment.NewLine}Manager: {arg6}");
 
-            employees.Add(new Employee { Id = 1, FirstName = "Sarah", LastName = "Jones", AnuualSalary = 60000, Gender = 'f', IsManager = true });
-            employees.Add(new Employee { Id = 2, FirstName = "Andrew", LastName = "Brown", AnuualSalary = 40000, Gender = 'm', IsManager = false });
-            employees.Add(new Employee { Id = 3, FirstName = "John", LastName = "Henderson", AnuualSalary = 58000, Gender = 'm', IsManager = true });
-            employees.Add(new Employee { Id = 4, FirstName = "Jane", LastName = "May", AnuualSalary = 30000, Gender = 'f', IsManager = false });
+            employees.Add(new Employee { Id = 1, FirstName = "Sarah", LastName = "Jones", AnuualSalary = calculateTotalAnnualSalary(60000, 2), Gender = 'f', IsManager = true });
+            employees.Add(new Employee { Id = 2, FirstName = "Andrew", LastName = "Brown", AnuualSalary = calculateTotalAnnualSalary(40000, 2), Gender = 'm', IsManager = false });
+            employees.Add(new Employee { Id = 3, FirstName = "John", LastName = "Henderson", AnuualSalary = calculateTotalAnnualSalary(58000, 2), Gender = 'm', IsManager = true });
+            employees.Add(new Employee { Id = 4, FirstName = "Jane", LastName = "May", AnuualSalary = calculateTotalAnnualSalary(30000, 2), Gender = 'f', IsManager = false });
 
             //List<Employee> employeesFiletered = FilterEmployees(employees, e => e.IsManager);
             //only need to pass lambda pression for the method of the list object
